@@ -1,0 +1,39 @@
+{
+  "projectName": "RegressProof Real Repo Validation",
+  "baselineRef": "HEAD~1",
+  "baseline": {
+    "mode": "path_snapshot"
+  },
+  "targetPaths": [
+    "regressproof",
+    "docs/REGRESSPROOF_INDEX.md",
+    "docs/REGRESSPROOF_DECISION_LOG.md",
+    "docs/REGRESSPROOF_PROTOTYPE_WALKTHROUGH.md"
+  ],
+  "checks": {
+    "commandTimeoutMs": 5000,
+    "quick": [
+      "node -e \"process.stdout.write('real-repo-smoke-ok')\""
+    ],
+    "full": [
+      "node -e \"process.stdout.write('real-repo-full-pending')\""
+    ]
+  },
+  "reports": {
+    "defaultFormat": "json",
+    "ciFailOn": [
+      "confirmed_agent_fault"
+    ]
+  },
+  "usage": {
+    "mode": "estimated",
+    "estimatedCostUsd": 0.02
+  },
+  "credits": {
+    "enabled": true,
+    "policy": "refund_estimated_cost_on_confirmed_agent_fault"
+  },
+  "ledger": {
+    "enabled": true
+  }
+}

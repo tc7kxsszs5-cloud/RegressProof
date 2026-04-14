@@ -1,0 +1,9 @@
+{
+  "name": "regressproof-fixture-timeout-js",
+  "private": true,
+  "scripts": {
+    "lint": "node scripts/lint.js",
+    "typecheck": "node scripts/typecheck.js",
+    "test": "node scripts/test.js"
+  }
+}

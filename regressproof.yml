@@ -1,0 +1,76 @@
+name: RegressProof
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      repo_path:
+        description: "Optional target repo path inside the workspace"
+        required: false
+        default: "regressproof/fixtures/simple-js"
+      config_path:
+        description: "Optional config path inside the target repo"
+        required: false
+        default: "regressproof.config.json"
+      usage_mode:
+        description: "estimated or exact"
+        required: false
+        default: "estimated"
+
+jobs:
+  regressproof:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run RegressProof
+        id: regressproof
+        env:
+          REGRESSPROOF_USAGE_MODE: ${{ github.event.inputs.usage_mode || 'estimated' }}
+          REGRESSPROOF_PROMPT_TOKENS: ${{ vars.REGRESSPROOF_PROMPT_TOKENS }}
+          REGRESSPROOF_COMPLETION_TOKENS: ${{ vars.REGRESSPROOF_COMPLETION_TOKENS }}
+          REGRESSPROOF_CACHED_TOKENS: ${{ vars.REGRESSPROOF_CACHED_TOKENS }}
+          REGRESSPROOF_COST_USD: ${{ vars.REGRESSPROOF_COST_USD }}
+        run: |
+          node regressproof/src/cli.js run \
+            --repo "${{ github.event.inputs.repo_path || 'regressproof/fixtures/simple-js' }}" \
+            --config "${{ github.event.inputs.config_path || 'regressproof.config.json' }}" \
+            --format json \
+            --artifact-dir regressproof-artifacts \
+            --ci
+
+      - name: Print RegressProof Outputs
+        run: |
+          echo "verdict=${{ steps.regressproof.outputs.verdict }}"
+          echo "confidence=${{ steps.regressproof.outputs.confidence }}"
+          echo "ci_should_fail=${{ steps.regressproof.outputs.ci_should_fail }}"
+          echo "exact_usage_available=${{ steps.regressproof.outputs.exact_usage_available }}"
+          echo "internal_credit_usd=${{ steps.regressproof.outputs.internal_credit_usd }}"
+
+      - name: Upload RegressProof Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: regressproof-artifacts
+          path: regressproof-artifacts/
+
+      - name: Publish PR Comment
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          node regressproof/scripts/post-pr-comment.js \
+            --body-file "${{ steps.regressproof.outputs.report_pr_comment }}"

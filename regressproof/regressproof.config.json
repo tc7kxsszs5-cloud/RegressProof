@@ -1,0 +1,31 @@
+{
+  "projectName": "RegressProof Demo",
+  "baselineRef": "HEAD~1",
+  "checks": {
+    "commandTimeoutMs": 30000,
+    "quick": [
+      "bun run lint",
+      "bun run typecheck"
+    ],
+    "full": [
+      "bun run test"
+    ]
+  },
+  "reports": {
+    "defaultFormat": "text",
+    "ciFailOn": [
+      "confirmed_agent_fault"
+    ]
+  },
+  "usage": {
+    "mode": "estimated",
+    "estimatedCostUsd": 0.05
+  },
+  "credits": {
+    "enabled": true,
+    "policy": "refund_estimated_cost_on_confirmed_agent_fault"
+  },
+  "ledger": {
+    "enabled": true
+  }
+}
