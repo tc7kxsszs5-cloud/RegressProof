@@ -2,7 +2,26 @@
 
 Proof, not guesses, for agent-caused regressions.
 
-This repository contains the current standalone `RegressProof` prototype:
+## Legacy Notice
+
+This repository is no longer the active canonical home of RegressProof.
+
+The active repository is:
+
+- [tc7kxsszs5-cloud/RegressProof-cli](https://github.com/tc7kxsszs5-cloud/RegressProof-cli)
+
+Use `RegressProof-cli` for:
+
+- current CLI runtime
+- current validation corpus
+- current project documentation
+- current releases and active hardening work
+
+This repository is kept only as historical prototype context.
+
+## Historical Context
+
+This repository contains an earlier standalone `RegressProof` prototype:
 
 - the CLI implementation in `regressproof/`
 - validation fixtures in `regressproof/fixtures/`
@@ -28,7 +47,9 @@ node src/cli.js run \
 
 ## Current Status
 
-The prototype currently supports:
+This repository should be treated as legacy prototype material.
+
+The historical prototype here supports:
 
 - baseline vs current quick-check comparison
 - evidence-based fault classification
@@ -36,4 +57,3 @@ The prototype currently supports:
 - JSON and Markdown reporting
 - persistent JSONL ledger entries
 - PR comment artifact generation and GitHub Action integration
-

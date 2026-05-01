@@ -1,5 +1,7 @@
 # AGENTS.md
 
+Legacy notice: this repository is not the active canonical home for RegressProof. The active repository is `https://github.com/tc7kxsszs5-cloud/RegressProof-cli`.
+
 This repository contains planning and future implementation work for `RegressProof`.
 
 ## Project Identity

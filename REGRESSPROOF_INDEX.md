@@ -1,5 +1,7 @@
 # RegressProof Project Index
 
+> Legacy repository notice: the active canonical repository is [RegressProof-cli](https://github.com/tc7kxsszs5-cloud/RegressProof-cli). Treat this repository as historical prototype context only.
+
 **Project:** `RegressProof`  
 **Purpose:** Persistent project memory and navigation entry point  
 **Last updated:** 14 April 2026
